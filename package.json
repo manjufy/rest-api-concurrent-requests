@@ -1,0 +1,30 @@
+{
+  "name": "express-session-passport",
+  "version": "1.0.0",
+  "description": "Node Express Passport Session example",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --ignore sessions/ index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "expressjs",
+    "passport"
+  ],
+  "author": "Manjunath Reddy <manju16832003@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-simple": "^0.5.1",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "session-file-store": "^1.2.0",
+    "uuid": "^3.3.2"
+  }
+}
