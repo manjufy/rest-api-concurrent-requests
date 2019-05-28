@@ -16,6 +16,7 @@ const app = express()
 
 const sql = require('./common/sql')
 const config = require('./config')
+const userModel = require('./models/users')
 app.use(bodyParser.json())
 
 // configure session middleware
@@ -47,18 +48,15 @@ app.use((req, res, next) => {
     next()
 })
 
-// Since we don't have persistence storage yet, lets just hard code this for now
-const users = [
-    { id: 1, email: 'manju@manju.com', password: 'abc123' }
-]
-
 const SECRET = 'nomnomnom'
 
 // Bearer strategy to authenticate endpoints with bearer
-passport.use(new BearerStrategy((token, done) => {
+passport.use(new BearerStrategy(async (token, done) => {
     try {
         const { user } = jwtSimple.decode(token, SECRET)
-        if (users[0].email === user.email) {
+        const newUser = await userModel.getByEmail(user.email)
+
+        if (newUser.email === user.email) {
             return done(null, user)
         }
     } catch (error) {
@@ -69,10 +67,11 @@ passport.use(new BearerStrategy((token, done) => {
 // JWT strategy to authenticate with jwt token
 passport.use(new JWTStrategy({
     jwtFromRequest: pass_jwt_extract.fromAuthHeaderWithScheme('jwt'),
-    secretOrKey: SECRET }, (payload, done) => {
+    secretOrKey: SECRET }, async (payload, done) => {
     // find user from DB if needed
-    const user = users[0]
-    if (payload.email === user.email && payload.password === user.password) {
+    const user = await userModel.login(payload.email, payload.password)
+    console.log('User', user)
+    if (user) {
         return done (null, user)
     }
 
@@ -82,13 +81,10 @@ passport.use(new JWTStrategy({
 // Local strategy to authenticate with username and password
 passport.use(new LocalStrategy(
     { usernameField: 'email' }, // passport uses username and password authenticate user, however our app uses email, we alias it here
-    (email, password, done) => {
-        // here we can make a call to DB to find the user based on username, password.
-        // for now, lets use the hardcode ones
-        const user = users[0]
+    async (email, password, done) => {
+    const user = await userModel.login(email, password)
 
-    if (email === user.email && password === user.password) {
-        // return done(null, jwt.encode({ user }, SECRET))
+    if (user) {
         return done(null, user)
     }
 
@@ -104,10 +100,14 @@ passport.serializeUser((user, done) => {
     return done(null, user.id) // store the user.id into session
 })
 
-passport.deserializeUser((id, done) => {
+passport.deserializeUser(async (id, done) => {
     // The user id passport saved in the session file store is: ${id}
-    const user = users[0].id === id ? users[0] : false; 
-    return done(null, user)
+    const user = await userModel.getById(id)
+    if (user) {
+        return done(null, user)
+    }
+
+    return done(null, false)
 })
 
 // tell application to use passport as middleware
@@ -130,10 +130,11 @@ app.post('/api/auth/login-local', passport.authenticate('local'), (req, res) => 
     })
 })
 
-app.post('/api/auth/login-bearer', (req, res) => {
+app.post('/api/auth/login-bearer', async (req, res) => {
     // make a call to DB, get the user based on username,password.
-    const user = users[0]
-    if (req.body.email === user.email && req.body.password === user.password) {
+    const user = await userModel.login(req.body.email, req.body.password)
+    console.log(user)
+    if (user) {
         return res.send({
             token: jwtSimple.encode({ user }, SECRET)
         })
@@ -142,12 +143,13 @@ app.post('/api/auth/login-bearer', (req, res) => {
     return res.status(401).send('Unauthenticated')
 })
 
-app.post('/api/auth/login-jwt', (req, res) => {
+app.post('/api/auth/login-jwt', async (req, res) => {
     // make a call to DB, get the user based on username,password.
-    const user = users[0]
-    if (req.body.email === user.email && req.body.password === user.password) {
+    const user = await userModel.login(req.body.email, req.body.password)
+
+    if (user) {
         return res.send({
-            token: jwt.sign(user, SECRET, { expiresIn: '1d' })
+            token: jwt.sign({...user}, SECRET, { expiresIn: '1d' })
         })
     }
 
@@ -205,7 +207,7 @@ app.get('/api/todos-bearer', passport.authenticate('bearer', { session: false })
  * POST http://localhost:3000/login-jwt {username: 'username', password: 'password'} - To get JWT token
  * GET http://localhost:3000/todos-jwt -H "Authorization: jwt <token>"
  */
-app.get('/api/todos-jwt', passport.authenticate('JWT', { session: false }), (_, res) => {
+app.get('/api/todos-jwt', passport.authenticate('JWT', { session: false }), (req, res) => {
     res.json([
         {
             id: 1,

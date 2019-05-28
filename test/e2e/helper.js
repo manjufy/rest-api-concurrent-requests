@@ -14,6 +14,7 @@ exports.login = () => {
     const dbInitStr = '/api/db-init'
     return admin.get(dbInitStr)
         .then(() => {
+            // ADMIN
             return admin
                     .post('/api/auth/login-local')
                     .send({
@@ -22,10 +23,20 @@ exports.login = () => {
                     })
         })
         .then(() => {
+            // SELLER
             return customer
                 .post('/api/auth/login-local')
                 .send({
-                    'email': 'customer@manju.com',
+                    'email': 'micheal@manju.com',
+                    'password': 'abc123'
+                })
+        })
+        .then(() => {
+            // BUYER
+            return customer
+                .post('/api/auth/login-local')
+                .send({
+                    'email': 'seb@manju.com',
                     'password': 'abc123'
                 })
         })

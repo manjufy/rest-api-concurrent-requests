@@ -7,7 +7,7 @@ let users
  * Synchronous code
  * When testing synchronous code, omit the callback and Mocha will automatically continue on to the next test.
  */
-describe('#Users', () => {
+describe.only('#Users', () => {
     // before hook
     before(() => {
         return helper.login()
