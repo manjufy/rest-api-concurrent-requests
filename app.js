@@ -17,6 +17,7 @@ const app = express()
 const sql = require('./common/sql')
 const config = require('./config')
 const userModel = require('./models/users')
+const auth = require('./common/auth')
 app.use(bodyParser.json())
 
 // configure session middleware
@@ -167,9 +168,19 @@ app.get('/api/auth/logout-local', (req, res) => {
 /**
  * Authorised endpoints. Must be logged into access this endpoint (LocalStrategy)
  */
+
+app.post('/api/users', auth.authorise('USERS', ['ADMIN', 'SELLER']), async(req, res) => {
+    if(req.isAuthenticated()) {
+        const result = await userModel.upsert(req.body)
+        return res.status(200).json(result)
+    }
+
+    res.status(401).send('Unauthenticated')
+})
+
 app.get('/api/todos-local', (req, res) => {
     if(req.isAuthenticated()) {
-        res.json([
+        return res.json([
             {
                 id: 1,
                 todo: 'Test'
@@ -179,9 +190,9 @@ app.get('/api/todos-local', (req, res) => {
                 todo: 'Test'
             }
         ])
-    } else {
-      res.status(401).send('Unauthenticated')
-    }
+    } 
+
+    res.status(401).send('Unauthenticated')
 })
 
 /**

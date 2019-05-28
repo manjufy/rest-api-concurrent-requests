@@ -17,14 +17,45 @@ describe.only('#Users', () => {
     })
 
     describe('#ADMIN', () => {
-        it('should return todos', () => {
+        it('should create new user with SELLER role', () => {
+            return users.admin
+                    .post('/api/users')
+                    .send({
+                        ...userPartial,
+                        full_name: 'Lewis Hamilton',
+                        username: 'lewis',
+                        password: 'abc123',
+                        email: 'lewis@f1.com',
+                        role: 'SELLER'
+                    })
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(200)
+                    })
+                    .catch(error => console.log(error))
+        })
+        it('should create new user with BUYER role', () => {
+            return users.admin
+                    .post('/api/users')
+                    .send({
+                        ...userPartial,
+                        full_name: 'Fernando Alonso',
+                        username: 'alonso',
+                        password: 'abc123',
+                        email: 'alonso@f1.com',
+                        role: 'BUYER'
+                    })
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(200)
+                    })
+                    .catch(error => console.log(error))
+        })
+        it('should return todos list', () => {
             return users.admin.get('/api/todos-local')
                     .then((res) => {
                         expect(res.statusCode).to.be.equal(200)
                     })
         })
-    
-        it('admin should logout', function () {
+        it('should logout', function () {
             // this.timeout(10000) // this does not work if we use arrow functions.
             return users.admin.get('/api/auth/logout-local')
                     .then((res) => {
@@ -32,7 +63,7 @@ describe.only('#Users', () => {
                     })
         })
     
-        it('admin should forbiddent to access', function () {
+        it('should forbidden to access todo list', function () {
             // this.timeout(10000) // this does not work if we use arrow functions.
             return users.admin.get('/api/todos-local')
                     .then((res) => {
@@ -61,3 +92,13 @@ describe.skip('Retries', function() {
       expect($('.foo').isDisplayed()).to.eventually.be.true;
     });
 });
+
+const userPartial = {
+    type: 'PUBLIC',
+    phone: 1234455,
+    city: 'KL',
+    state: 'WP',
+    post_code: 12121212,
+    country: 'Malaysia',
+    status: 1,
+}

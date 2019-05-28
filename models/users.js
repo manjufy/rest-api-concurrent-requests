@@ -71,6 +71,9 @@ exports.upsert = (params) => {
                 status: 1,
                 role: params.role || 'CUSTOMER' // DEALER || CUSTOMER
             })
+            .then(id => {
+                return exports.getById(id)
+            })
         } else {
             return sql.knex('users').update({
                 type: params.type || 'PUBLIC',
