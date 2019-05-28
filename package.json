@@ -2,10 +2,12 @@
   "name": "express-session-passport",
   "version": "1.0.0",
   "description": "Node Express Passport Session example",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon --ignore sessions/ index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --ignore sessions/ app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-coverage": "NODE_ENV=test istanbul cover _mocha -- -R spec",
+    "test:e2e": "NODE_ENV=test PORT=8880 mocha test/e2e/*.js --timeout 15000 --exit"
   },
   "keywords": [
     "node",
@@ -20,11 +22,19 @@
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.5.1",
     "jwt-simple": "^0.5.1",
+    "knex": "^0.16.5",
+    "mysql2": "^1.6.5",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "session-file-store": "^1.2.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4",
+    "superagent": "^5.0.5"
   }
 }
