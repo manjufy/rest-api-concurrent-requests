@@ -7,7 +7,7 @@ let users
  * Synchronous code
  * When testing synchronous code, omit the callback and Mocha will automatically continue on to the next test.
  */
-describe.only('#Users', () => {
+describe('#Users', () => {
     // before hook
     before(() => {
         return helper.login()
@@ -17,16 +17,7 @@ describe.only('#Users', () => {
     })
 
     describe('#ADMIN', () => {
-        it('admin should return todos', () => {
-            return users.admin.get('/api/todos-local')
-                    .then((res) => {
-                        expect(res.statusCode).to.be.equal(200)
-                    })
-        })
-    
-        
-        it('admin should return todos', function () {
-            // this.timeout(10000) // this does not work if we use arrow functions.
+        it('should return todos', () => {
             return users.admin.get('/api/todos-local')
                     .then((res) => {
                         expect(res.statusCode).to.be.equal(200)
@@ -41,11 +32,11 @@ describe.only('#Users', () => {
                     })
         })
     
-        it('admin should return todos', function () {
+        it('admin should forbiddent to access', function () {
             // this.timeout(10000) // this does not work if we use arrow functions.
             return users.admin.get('/api/todos-local')
                     .then((res) => {
-                        expect(res.statusCode).to.be.equal(403)
+                        expect(res.statusCode).to.be.equal(401)
                     })
         })
     })

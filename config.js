@@ -1,10 +1,20 @@
 const env = process.env.NODE_ENV || 'development';
+const dbConnection = (env) => ({
+    port: 3306,
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'manju2018',
+    database: `kljs-e2e-${env}`, // kljs-e2e-{dev|test|prod}
+    multipleStatements: true,
+    timezone: 'utc',
+})
+
 module.exports = {
     env,
     app: {
         port: 3000
       },
-      db: () => {
+      db: function () {
         switch(env) {
             case 'production':
                 return {
@@ -17,15 +27,5 @@ module.exports = {
                     ...dbConnection('test'),
                 }
         }
-    }
+    }()
 }
-
-const dbConnection = (env) => ({
-    port: 3306,
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'manju2018',
-    database: `kljs-e2e-${env}`, // kljs-e2e-{dev|test|prod}
-    multipleStatements: true,
-    timezone: 'utc',
-})

@@ -10,7 +10,11 @@ const pass_jwt_extract = require('passport-jwt').ExtractJwt;
 const session = require('express-session')
 const uuid = require('uuid')
 const FileStore = require('session-file-store')(session)
+const promise = require('bluebird');
+const fs = promise.promisifyAll(require('fs'));
 const app = express()
+
+const sql = require('./common/sql')
 const config = require('./config')
 app.use(bodyParser.json())
 
@@ -135,7 +139,7 @@ app.post('/api/auth/login-bearer', (req, res) => {
         })
     }
 
-    return res.status(500).send('Internal Server error')
+    return res.status(401).send('Unauthenticated')
 })
 
 app.post('/api/auth/login-jwt', (req, res) => {
@@ -147,7 +151,7 @@ app.post('/api/auth/login-jwt', (req, res) => {
         })
     }
 
-    return res.status(500).send('Internal Server error')
+    return res.status(401).send('Unauthenticated')
 })
 
 app.get('/api/auth/logout-local', (req, res) => {
@@ -174,7 +178,7 @@ app.get('/api/todos-local', (req, res) => {
             }
         ])
     } else {
-      res.status(403).send('Forbidden')
+      res.status(401).send('Unauthenticated')
     }
 })
 
@@ -216,11 +220,41 @@ app.get('/api/todos-jwt', passport.authenticate('JWT', { session: false }), (_, 
 
 // only do this for NODE_ENV=test.
 app.get('/api/db-init', (req, res) => {
-    console.log('setting up db tables')
-    res.send('DONE!')
+    if (process.env.NODE_ENV !== 'test') {
+        throw Error(`Obstruction of justice!`)
+    }
+
+    return promise.resolve()
+        .then(() => {
+            return fs.readdirAsync(`${__dirname}/sql/tables`)
+        })
+        .then(function (files) {
+            return promise.each(files, function (file) {
+                if (file.indexOf('.sql') == -1) return
+
+                return fs.readFileAsync(`${__dirname}/sql/tables/${file}`, 'utf8')
+                    .then((text) => {
+                        return sql.kraw(text.replace(/\{0\}/g,config.db.database)).then()
+                    })
+            })
+        })
+        .then(function () {
+            return fs.readdirAsync(`${__dirname}/sql/seed`)
+        })
+        .then(function (files) {
+            return promise.each(files, function (file) {
+                if (file.indexOf('.sql') == -1) return
+
+                return fs.readFileAsync(`${__dirname}/sql/seed/${file}`, 'utf8')
+                    .then((text) => {
+                        return sql.kraw(text.replace(/\{0\}/g,config.db.database)).then()
+                    })
+            })
+        })
+        .then(() => res.send('DONE!'))
 })
 
-app.get('/api', (req, res) => res.send('Node Express Passport Session example'))
+app.get('/api', (req, res) => res.send('Node+Express+Passport+Mocha+Superagent example'))
 
 /*************
  * </ROUTES> 

@@ -1,0 +1,2 @@
+INSERT INTO users (type,full_name,username,password, email,phone, city, state, post_code, country, created_by, updated_by, created_at, updated_at, status, role)
+VALUES('SYSTEM', 'Administrator', 'admin', password('abc123'), 'manju@manju.com', 01232323, 'KL', 'WP', 560065, 'Malaysia', 1,1, NOW(), NOW(), 1, 'ADMIN');

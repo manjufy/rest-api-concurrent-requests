@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` char(10) NOT NULL,
@@ -20,5 +21,5 @@ CREATE TABLE `users` (
   `role` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_user` (`username`),
-  UNIQUE KEY `idx_email` (`email`),
+  UNIQUE KEY `idx_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -5,8 +5,8 @@ exports.loginWithSA = (agent, email = 'manju@manju.com', password = 'abc123') =>
         return agent
                 .post(`${endpoint}/api/auth/login-local`)
                 .send({
-                    'email': 'manju@manju.com',
-                    'password': 'abc123'
+                    email,
+                    password,
                 })
 }
 

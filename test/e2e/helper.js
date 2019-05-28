@@ -11,7 +11,7 @@ exports.login = () => {
         customer,
     }
 
-    const dbInitStr = '/db-init'
+    const dbInitStr = '/api/db-init'
     return admin.get(dbInitStr)
         .then(() => {
             return admin
