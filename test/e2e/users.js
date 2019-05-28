@@ -16,36 +16,38 @@ describe.only('#Users', () => {
                 })
     })
 
-    it('admin should return todos', () => {
-        return users.admin.get('/api/todos-local')
-                .then((res) => {
-                    expect(res.statusCode).to.be.equal(200)
-                })
-    })
-
+    describe('#ADMIN', () => {
+        it('admin should return todos', () => {
+            return users.admin.get('/api/todos-local')
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(200)
+                    })
+        })
     
-    it('admin should return todos', function () {
-        // this.timeout(10000) // this does not work if we use arrow functions.
-        return users.admin.get('/api/todos-local')
-                .then((res) => {
-                    expect(res.statusCode).to.be.equal(200)
-                })
-    })
-
-    it('admin should logout', function () {
-        // this.timeout(10000) // this does not work if we use arrow functions.
-        return users.admin.get('/api/auth/logout-local')
-                .then((res) => {
-                    expect(res.statusCode).to.be.equal(200)
-                })
-    })
-
-    it('admin should return todos', function () {
-        // this.timeout(10000) // this does not work if we use arrow functions.
-        return users.admin.get('/api/todos-local')
-                .then((res) => {
-                    expect(res.statusCode).to.be.equal(403)
-                })
+        
+        it('admin should return todos', function () {
+            // this.timeout(10000) // this does not work if we use arrow functions.
+            return users.admin.get('/api/todos-local')
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(200)
+                    })
+        })
+    
+        it('admin should logout', function () {
+            // this.timeout(10000) // this does not work if we use arrow functions.
+            return users.admin.get('/api/auth/logout-local')
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(200)
+                    })
+        })
+    
+        it('admin should return todos', function () {
+            // this.timeout(10000) // this does not work if we use arrow functions.
+            return users.admin.get('/api/todos-local')
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(403)
+                    })
+        })
     })
 
     it('pending test => should return all users');

@@ -8,7 +8,7 @@ const customer = chai.request.agent(server);
 exports.login = () => {
     const users = {
         admin, // same as admin: admin
-        customer, 
+        customer,
     }
 
     const dbInitStr = '/db-init'
@@ -25,7 +25,7 @@ exports.login = () => {
             return customer
                 .post('/api/auth/login-local')
                 .send({
-                    'email': 'manju@manju.com',
+                    'email': 'customer@manju.com',
                     'password': 'abc123'
                 })
         })
