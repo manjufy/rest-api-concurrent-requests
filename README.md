@@ -26,6 +26,8 @@ Run with nodemon?  do install nodemon globally `npm install nodemon -g`
 
 Make sure to install mochal globablly `npm install mocha -g`
 
+Make sure to create a database named `kljs-e2e-test`
+
 `> npm run test:e2e`
 
 ## Further improvements
