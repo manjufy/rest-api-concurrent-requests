@@ -169,8 +169,13 @@ app.get('/api/auth/logout-local', (req, res) => {
  * Authorised endpoints. Must be logged into access this endpoint (LocalStrategy)
  */
 
-app.post('/api/users', auth.authorise('USERS', ['ADMIN', 'SELLER']), async(req, res) => {
+app.post('/api/users', auth.authorise('USERS'), async(req, res) => {
     const result = await userModel.upsert(req.body)
+    return res.status(200).json(result)
+})
+
+app.get('/api/users/:id', auth.authorise('USERS'), async(req, res) => {
+    const result = await userModel.getById(req.params.id)
     return res.status(200).json(result)
 })
 
@@ -183,7 +188,7 @@ app.get('/api/todos-local', (req, res) => {
             },
             {
                 id: 2,
-                todo: 'Test'
+                todo: 'Test 123'
             }
         ])
     } 
@@ -204,7 +209,7 @@ app.get('/api/todos-bearer', passport.authenticate('bearer', { session: false })
         },
         {
             id: 2,
-            todo: 'Test'
+            todo: 'Test 123'
         }
     ])
 })

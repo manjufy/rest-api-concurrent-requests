@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "nodemon --ignore sessions/ app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:unit": "",
+    "test:integration": "",
     "test-coverage": "NODE_ENV=test istanbul cover _mocha -- -R spec",
-    "test:e2e": "NODE_ENV=test PORT=8880 mocha test/e2e/*.js --timeout 15000 --exit"
+    "test:e2e": "NODE_ENV=test PORT=8880 mocha test/e2e/*.js --timeout 15000 --exit",
+    "test:ci": "npm run unit && npm run test:integration && npm run test:e2e"
   },
   "keywords": [
     "node",

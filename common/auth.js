@@ -37,7 +37,7 @@ exports.perms =  (moduleCode, role) => {
     return action_perm[role];
 }
 
-exports.authorise = (moduleCode, roles) => {
+exports.authorise = (moduleCode) => {
     return (req, res, next) => {
         const user = req.user // from passport-local session
         const perms = exports.perms(moduleCode, user.role) // { USERS: { POST: true, PUT: true, GET: true } }
