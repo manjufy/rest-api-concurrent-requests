@@ -170,12 +170,8 @@ app.get('/api/auth/logout-local', (req, res) => {
  */
 
 app.post('/api/users', auth.authorise('USERS', ['ADMIN', 'SELLER']), async(req, res) => {
-    if(req.isAuthenticated()) {
-        const result = await userModel.upsert(req.body)
-        return res.status(200).json(result)
-    }
-
-    res.status(401).send('Unauthenticated')
+    const result = await userModel.upsert(req.body)
+    return res.status(200).json(result)
 })
 
 app.get('/api/todos-local', (req, res) => {

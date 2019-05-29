@@ -7,7 +7,7 @@ let users
  * Synchronous code
  * When testing synchronous code, omit the callback and Mocha will automatically continue on to the next test.
  */
-describe.only('#Users', () => {
+describe('#Users', () => {
     // before hook
     before(() => {
         return helper.login()
@@ -55,7 +55,7 @@ describe.only('#Users', () => {
                         expect(res.statusCode).to.be.equal(200)
                     })
         })
-        it('should logout', function () {
+        it.skip('should logout', function () {
             // this.timeout(10000) // this does not work if we use arrow functions.
             return users.admin.get('/api/auth/logout-local')
                     .then((res) => {
@@ -63,11 +63,61 @@ describe.only('#Users', () => {
                     })
         })
     
-        it('should forbidden to access todo list', function () {
+        it.skip('should forbidden to access todo list', function () {
             // this.timeout(10000) // this does not work if we use arrow functions.
             return users.admin.get('/api/todos-local')
                     .then((res) => {
                         expect(res.statusCode).to.be.equal(401)
+                    })
+        })
+    })
+
+    describe('#SELLER', () => {
+        it('should NOT allowed to create new user', () => {
+            return users.buyer
+                    .post('/api/users')
+                    .send({
+                        ...userPartial,
+                        full_name: 'Lewis Hamilton',
+                        username: 'lewis',
+                        password: 'abc123',
+                        email: 'lewis@f1.com',
+                        role: 'SELLER'
+                    })
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(403)
+                    })
+        })
+
+        it('should return todos list', () => {
+            return users.admin.get('/api/todos-local')
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(200)
+                    })
+        })
+    })
+
+    describe('#BUYER', () => {
+        it('should NOT allowed to create new user', () => {
+            return users.buyer
+                    .post('/api/users')
+                    .send({
+                        ...userPartial,
+                        full_name: 'Lewis Hamilton',
+                        username: 'lewis',
+                        password: 'abc123',
+                        email: 'lewis@f1.com',
+                        role: 'SELLER'
+                    })
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(403)
+                    })
+        })
+
+        it('should return todos list', () => {
+            return users.admin.get('/api/todos-local')
+                    .then((res) => {
+                        expect(res.statusCode).to.be.equal(200)
                     })
         })
     })

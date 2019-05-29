@@ -4,11 +4,13 @@ const server = require('../../app');
 chai.use(http);
 // Login with chai.request.agent
 const admin = chai.request.agent(server);
-const customer = chai.request.agent(server);
+const buyer = chai.request.agent(server);
+const seller = chai.request.agent(server);
 exports.login = () => {
     const users = {
         admin, // same as admin: admin
-        customer,
+        buyer,
+        seller
     }
 
     const dbInitStr = '/api/db-init'
@@ -24,7 +26,7 @@ exports.login = () => {
         })
         .then(() => {
             // SELLER
-            return customer
+            return seller
                 .post('/api/auth/login-local')
                 .send({
                     'email': 'micheal@manju.com',
@@ -33,7 +35,7 @@ exports.login = () => {
         })
         .then(() => {
             // BUYER
-            return customer
+            return buyer
                 .post('/api/auth/login-local')
                 .send({
                     'email': 'seb@manju.com',

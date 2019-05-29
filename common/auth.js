@@ -42,20 +42,17 @@ exports.authorise = (moduleCode, roles) => {
         const user = req.user // from passport-local session
         const perms = exports.perms(moduleCode, user.role) // { USERS: { POST: true, PUT: true, GET: true } }
         if (!user.role) {
-            res.status(401).json('Unauthorised')
-            return next('Unauthorised')
+            return res.status(401).json('Unauthorised')
         }
 
         if (req.isAuthenticated()) {
             if (perms[moduleCode][req.method]) {
                 return next()
             } else {
-                res.status(403).json('Forbidden')
-                return next('Forbidden')
+                return res.status(403).json('Forbidden')
             }
         }
 
-        res.status(401).json('Unauthorised')
-        return next('Unauthorized')
+        return res.status(401).json('Unauthorised')
     }
 }
