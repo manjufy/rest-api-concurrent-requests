@@ -198,8 +198,8 @@ app.get('/api/todos-local', (req, res) => {
 
 /**
  * Authorised endpoint. Must use `Bear Token` to access the following endpoint.
- * POST http://localhost:3000/login-bearer {username: 'username', password: 'password'} - To get JWT token
- * GET http://localhost:3000/todos-bearer -H "Authorization: Bear <token>"
+ * First do POST http://localhost:3000/login-bearer {username: 'username', password: 'password'} - To get JWT token
+ * Then with the token from previous endpoint; do GET http://localhost:3000/todos-bearer -H "Authorization: Bear <token>"
  */
 app.get('/api/todos-bearer', passport.authenticate('bearer', { session: false }), (_, res) => {
     res.json([
@@ -216,8 +216,8 @@ app.get('/api/todos-bearer', passport.authenticate('bearer', { session: false })
 
 /**
  * Authorised endpoint. Must use `JWT Token` to access the following endpoint.
- * POST http://localhost:3000/login-jwt {username: 'username', password: 'password'} - To get JWT token
- * GET http://localhost:3000/todos-jwt -H "Authorization: jwt <token>"
+ * First do POST http://localhost:3000/login-jwt {username: 'username', password: 'password'} - To get JWT token
+ * Then with the token from the previous endpoint; GET http://localhost:3000/todos-jwt -H "Authorization: jwt <token>"
  */
 app.get('/api/todos-jwt', passport.authenticate('JWT', { session: false }), (req, res) => {
     res.json([
