@@ -4,16 +4,16 @@ var knex = require('knex')({
 	connection: config.db,
 	log: {
 		warn(message) {
-			appLogger.warn(`knex warn: %s`, message);
+			console.warn(`knex warn:`, message);
 		},
 		error(message) {
-			appLogger.error(`knex error: %s`, message);
+			console.error(`knex error:`, message);
 		},
 		deprecate(message) {
-			appLogger.warn(`knex deprecate: %s`, message);
+			console.warn(`knex deprecate:`, message);
 		},
 		debug(message) {
-			appLogger.debug(`knex debug: %s`, message);
+			appLogger.info(`knex debug:`, message);
 		},
 	}
 });
