@@ -7,6 +7,7 @@
     - Beaer Strategy
 - Setup Session storage and cookies
 - Authorisation
+- End-to-end testing
 
 # How to run
 
