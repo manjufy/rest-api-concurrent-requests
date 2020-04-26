@@ -51,6 +51,7 @@ Tools for testing in NodeJs
 - **TAPE:** https://github.com/substack/tape => Test Runner
 - **RITEWay:** https://github.com/ericelliott/riteway
 - **AVA:** https://github.com/avajs/ava
+- **Node Tap**: https://node-tap.org/
 
 Load Testing
 
