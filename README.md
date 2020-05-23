@@ -32,7 +32,7 @@ POST http://localhost:3000/api/payments
 In the database we should have only one payments entry for the above user and rest of them should be ignored.
 How we manage with ignored calls its left upto us. Either we can log them or store them in another table for auditing.
 
-The concurrent rest calls are also demonstrated in the e2e tests. Check out `test/e2e/users.js` file.
+The concurrent rest calls are also demonstrated in the e2e tests. Check out `test/e2e/payments.js` file.
 
 ## Tests
 
@@ -40,11 +40,12 @@ The concurrent rest calls are also demonstrated in the e2e tests. Check out `tes
 
 Make sure to install mochal globablly `npm install mocha -g`
 
-Make sure to update DB settings in config (https://github.com/manjufy/api-e2e-testing/blob/master/config.js)
+Make sure to create a database name and configure the db credentials in `config.js`
 
-Make sure to create a database named `kljs-e2e-test` before running e2e tests.
 
 `> npm run test:e2e`
+
+In the e2e tests `test/e2e/payments.js`. There is a demonstration of making concurrent calls to the same endpoint.
 
 
 
