@@ -18,6 +18,7 @@ Make sure to have node installed
 
 Go to Postman or any http client tool and try to perform the following request multiple times
 
+```
 POST http://localhost:3000/api/payments
 {
     "user_id": 1234,
@@ -25,7 +26,7 @@ POST http://localhost:3000/api/payments
     "status": "SUCCESS",
     "amount": 100,
     "transaction_id": "T23232323"
-}
+}```
 
 In the database we should have only one payments entry for the above user and rest of them should be ignored.
 How we manage with ignored calls its left upto us. Either we can log them or store them in another table for auditing.
