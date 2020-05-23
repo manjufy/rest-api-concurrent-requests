@@ -2,9 +2,9 @@ const env = process.env.NODE_ENV || 'development';
 const dbConnection = (env) => ({
     port: 3306,
     host: '127.0.0.1',
-    user: 'dbUsername',
-    password: 'dbPassword',
-    database: `kljs-e2e-${env}`, // kljs-e2e-{dev|test|prod}
+    user: 'root',
+    password: 'manju2018',
+    database: `formula1`,
     multipleStatements: true,
     timezone: 'utc',
 })
