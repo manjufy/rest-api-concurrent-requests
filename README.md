@@ -26,7 +26,8 @@ POST http://localhost:3000/api/payments
     "status": "SUCCESS",
     "amount": 100,
     "transaction_id": "T23232323"
-}```
+}
+```
 
 In the database we should have only one payments entry for the above user and rest of them should be ignored.
 How we manage with ignored calls its left upto us. Either we can log them or store them in another table for auditing.
