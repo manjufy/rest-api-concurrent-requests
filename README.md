@@ -1,8 +1,8 @@
 # Rest API Demo With Concurrent Requests
 
-API is implemented in NodeJS using express
+API is implemented in NodeJS using express 
 
-In this repo, we are going to demonstrate the use of handling multiple requests of the same payload and how we can make sure to avoid duplicate creation of the same resource.
+In this repo, we are going to demonstrate the use of handling multiple requests of the same payload and how we can make sure to avoid duplicate creation of the same resource. Please refer to the [Article]() for the explanation.
 
 # How to run
 
@@ -18,18 +18,16 @@ Make sure to have node installed
 
 Go to Postman or any http client tool and try to perform the following request multiple times
 
-POST http://localhost:3000/api/users
+POST http://localhost:3000/api/payments
 {
-	"full_name": "Micheal Schumacher",
-	"username": "usermame",
-	"password": "ferrari",
-	"email":"micheal",
-	"passport_number": "Z34343434",
-	"phone": "2323232323",
-	"country": "Germany"
+    "user_id": 1234,
+    "order_id": "1234-567-xq34343",
+    "status": "SUCCESS",
+    "amount": 100,
+    "transaction_id": "T23232323"
 }
 
-In the database we should have only one entry for the above user and rest of them should be ignore.
+In the database we should have only one payments entry for the above user and rest of them should be ignored.
 How we manage with ignored calls its left upto us. Either we can log them or store them in another table for auditing.
 
 The concurrent rest calls are also demonstrated in the e2e tests. Check out `test/e2e/users.js` file.
