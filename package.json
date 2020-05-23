@@ -1,0 +1,36 @@
+{
+  "name": "express-session-passport",
+  "version": "1.0.0",
+  "description": "Node Express Passport Session example",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:unit": "",
+    "test:integration": "",
+    "test-coverage": "NODE_ENV=test istanbul cover _mocha -- -R spec",
+    "test:e2e": "NODE_ENV=test PORT=8880 mocha test/e2e/*.js --timeout 15000 --exit",
+    "test:ci": "npm run unit && npm run test:integration && npm run test:e2e"
+  },
+  "keywords": [
+    "node",
+    "expressjs",
+    "passport"
+  ],
+  "author": "Manjunath Reddy <manju16832003@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "knex": "^0.15.2",
+    "mysql2": "^1.6.5"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4",
+    "superagent": "^5.0.5"
+  }
+}
