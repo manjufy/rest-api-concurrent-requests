@@ -45,7 +45,7 @@ Make sure to create a database name and configure the db credentials in `config.
 
 `> npm run test:e2e`
 
-In the e2e tests `test/e2e/payments.js`. There is a demonstration of making concurrent calls to the same endpoint.
+In the e2e tests `test/e2e/payments.js`, there is a demonstration of making concurrent calls to the same endpoint.
 
 
 
